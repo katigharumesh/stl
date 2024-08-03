@@ -6,7 +6,13 @@ from django.conf import settings
 from django.contrib.auth import authenticate
 
 
-
+def send_activation_email(user):
+        subject = 'Save Tax LLC: Activate Your Account'
+        activation_link = f"http://example.com/activate/{user.activation_code}"
+        message=  f'Hi {user.username},\n\nYour activation code is {user.activation_code}. Use the following link to activate your account: {activation_link}\n\nThanks,\nAdmin'
+        from_email = settings.DEFAULT_FROM_EMAIL
+        recipient_list = [user.email]
+        send_mail(subject, message, from_email, recipient_list)
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -44,7 +50,7 @@ class UserSerializer(serializers.ModelSerializer):
     
         user.set_password(validated_data['password'])
         user.save()
-        #send_activation_email(user, activation_code)
+        send_activation_email(user)
         return user
     
     def generate_unique_activation_code(self):
@@ -54,13 +60,7 @@ class UserSerializer(serializers.ModelSerializer):
             if not Users.objects.filter(activation_code=code).exists():
                 return code
     
-    def send_activation_email(user, activation_code):
-        subject = 'Save Tax LLC: Activate Your Account'
-        activation_link = f"http://example.com/activate/{user.activation_code}"
-        message=  f'Hi {user.username},\n\nYour activation code is {user.activation_code}. Use the following link to activate your account: {activation_link}\n\nThanks,\nAdmin'
-        from_email = settings.DEFAULT_FROM_EMAIL
-        recipient_list = [user.email]
-        send_mail(subject, message, from_email, recipient_list)
+    
 
 
 

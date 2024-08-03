@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'django_ratelimit',
     'stl_apis',
+    'corsheaders',
 ]
 
 REST_FRAMEWORK = {
@@ -82,6 +83,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',  # Ensure this is placed after CorsMiddleware
 ]
 
 CACHES = {
@@ -97,12 +100,12 @@ CACHES = {
 # SMTP Config
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.example.com'  # Replace with your SMTP server
+EMAIL_HOST = 'mail.privateemail.com'  # Replace with your SMTP server
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'your-email@example.com'
-EMAIL_HOST_PASSWORD = 'your-email-password'
-DEFAULT_FROM_EMAIL = 'your-email@example.com'
+EMAIL_HOST_USER = 'info@savetaxllc.com'
+EMAIL_HOST_PASSWORD = 'Save@tax24'
+DEFAULT_FROM_EMAIL = 'info@savetaxllc.com'
 
 
 ROOT_URLCONF = 'stl.urls'
@@ -181,3 +184,23 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',  # Replace with your React app's URL
+]
+# OR allow all origins (use with caution in production)
+CORS_ALLOW_ALL_ORIGINS = True
+# Optional: Allow specific HTTP methods
+CORS_ALLOWED_METHODS = [
+    'GET',
+    'POST',
+    'PUT',
+    'DELETE',
+    'OPTIONS',
+]
+# Optional: Allow specific headers
+CORS_ALLOWED_HEADERS = [
+    'content-type',
+    'authorization',
+]
