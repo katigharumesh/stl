@@ -1,6 +1,6 @@
 
 from rest_framework import serializers
-from .models import Users, Services, Tickets
+from .models import Users,Services,YearDropdown,Entity,Tickets,TaxOrganizer,Notifications,TicketFiles
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib.auth import authenticate
@@ -50,7 +50,7 @@ class UserSerializer(serializers.ModelSerializer):
     
         user.set_password(validated_data['password'])
         user.save()
-        send_activation_email(user)
+        #send_activation_email(user)
         return user
     
     def generate_unique_activation_code(self):
@@ -61,9 +61,6 @@ class UserSerializer(serializers.ModelSerializer):
                 return code
     
     
-
-
-
 class CustomTokenObtainPairSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()
@@ -83,7 +80,34 @@ class ServiceSerializer(serializers.ModelSerializer):
         model = Services
         fields = '__all__'
 
+
+class EntitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Entity
+        fields = '__all__'
+
+
+class YearDropdownSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = YearDropdown
+        fields = '__all__'
+
+class TaxOrganizerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TaxOrganizer
+        fields = '__all__'
+
 class TicketSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tickets
+        fields = '__all__'
+
+class NotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notifications
+        fields = '__all__'
+
+class TicketFilesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TicketFiles
         fields = '__all__'
