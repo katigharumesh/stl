@@ -94,7 +94,9 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
         response = Response({
             "success": True,
-            'message': 'Login successful'
+            'message': 'Login successful',
+            'access_token':access_token,
+            'refresh_token':refresh_token
         }, status=status.HTTP_200_OK)
 
         # Set the tokens in cookies
@@ -118,7 +120,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 class CustomTokenRefreshView(TokenRefreshView):
 
     def post(self, request, *args, **kwargs):
-        refresh_token = request.COOKIES.get('refresh_token')
+        refresh_token = request.get('refresh_token')
         if not refresh_token:
             return Response({"success": False,'message': "Refresh token not provided."}, status=status.HTTP_400_BAD_REQUEST)
 
