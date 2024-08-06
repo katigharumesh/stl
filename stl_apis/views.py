@@ -128,7 +128,7 @@ class CustomTokenRefreshView(TokenRefreshView):
             refresh = RefreshToken(refresh_token)
             data = {"access": str(refresh.access_token)}
             
-            response = Response({"success": True,'message': "access token is generated."}, status=status.HTTP_200_OK)
+            response = Response({"success": True,'message': "access token is generated.","access_token":data['access']}, status=status.HTTP_200_OK)
             response.set_cookie(
                 key='access_token',
                 value=data['access'],
